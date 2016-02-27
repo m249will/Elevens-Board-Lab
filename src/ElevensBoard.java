@@ -260,10 +260,37 @@ public class ElevensBoard
 	 */
 	public boolean anotherPlayIsPossible() 
    {
-		
+		Boolean Jack = false;
+		Boolean Queen = false;
+		Boolean King = false;
+		if (this.isEmpty() == true) {
+			return true;
+		}
+		for (Card card: cards) {
+			if (card != null) {
+				if (card.rank().equals("jack")) Jack = true;
+				else if (card.rank().equals("queen")) Queen = true;
+				else if (card.rank().equals("king")) King = true;
+			}
+		}
+		if (Jack && Queen && King) return true;
+		int k = 0;
+		for (Card card: cards) {
+			k = 0;
+			if (card != null) {
+				k = card.pointValue();
+				for (Card card2: cards) {
+					if (card2 != null) {
+						if (card2.pointValue() + k == 11) {
+							return true;
+						}
+					}
+				}
+			}
+		}
       
       
-      return true;
+      return false;
 	}
    
    /**
@@ -276,18 +303,16 @@ public class ElevensBoard
 	 */
 	private boolean containsPairSum11(List<Integer> selectedCards) 
    {
-		for(int p=0; p< selectedCards.size(); p++){
-			if(cards[selectedCards.get(p)].pointValue() + cards[selectedCards.get(p+1)].pointValue() == 11){
-				return true;
+      	if (selectedCards.size() == 2) {
+			int k = 0;
+			for (Integer cardIndex: selectedCards) {
+				Card card = this.cardAt(cardIndex);
+				k = k + card.pointValue();
 			}
-			else{
-				return false;
-			}
-		
-	}
-      
-      
-      return true;
+			if (k == 11) return true;
+			else return false;
+		}
+		else return false;
 	}
 
 	/**
@@ -300,18 +325,16 @@ public class ElevensBoard
 	 */
 	private boolean containsJQK(List<Integer> selectedCards) 
    {
-		for(int p=0; p< selectedCards.size(); p++){
-			if(cards[selectedCards.get(p)].pointValue() + cards[selectedCards.get(p+1)].pointValue() + cards[selectedCards.get(p+2)].pointValue() == 0){
-				return true;
-			}
-			else{
-				return false;
-			}
-		
+		Boolean Jack = false;
+		Boolean Queen = false;
+		Boolean King = false;
+		for (Integer cardIndex: selectedCards) {
+			Card card = this.cardAt(cardIndex);
+			if (card.rank().equals("jack")) Jack = true;
+			else if (card.rank().equals("queen")) Queen = true;
+			else if (card.rank().equals("king")) King = true;
+		}
+		if (Jack && Queen && King) return true;
+		else return false;
 	}
-      
-      
-      return true;
-	}
-   
 }
